@@ -1,5 +1,8 @@
 // eslint-disable-next-line react/prop-types
-const AddPlantForm = ({ handleAddPlanet }) => {
+const AddPlantForm = ({ handleAddPlanet, handleImageChance, imagePreview, fileType }) => {
+
+  // console.log(imageData.size);
+
   return (
     <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50'>
       <form onSubmit={handleAddPlanet}>
@@ -89,6 +92,7 @@ const AddPlantForm = ({ handleAddPlanet }) => {
                   <label>
                     <input
                       className='text-sm cursor-pointer w-36 hidden'
+                      onChange={handleImageChance}
                       type='file'
                       name='image'
                       id='image'
@@ -96,13 +100,26 @@ const AddPlantForm = ({ handleAddPlanet }) => {
                       hidden
                     />
                     <div className='bg-lime-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-lime-500'>
-                      Upload
+                      {
+                        fileType ? <p>File Type {fileType}</p> :
+                          <p>Upload</p>
+                      }
+
                     </div>
                   </label>
                 </div>
               </div>
             </div>
 
+            {/* image type and megabytes */}
+            <div>
+              {
+                imagePreview &&
+                <img className="w-60 h-32 object-cover rounded-md mb-2" src={imagePreview} alt="" />
+              }
+
+
+            </div>
             {/* Submit Button */}
             <button
               type='submit'

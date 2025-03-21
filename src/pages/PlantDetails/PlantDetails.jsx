@@ -4,13 +4,18 @@ import Heading from '../../components/Shared/Heading'
 import Button from '../../components/Shared/Button/Button'
 import PurchaseModal from '../../components/Modal/PurchaseModal'
 import { useState } from 'react'
+import { useLoaderData } from 'react-router-dom'
 
 const PlantDetails = () => {
   let [isOpen, setIsOpen] = useState(false)
+  const detailsPlant = useLoaderData()
+  console.log('detailsPlant', detailsPlant);
 
   const closeModal = () => {
     setIsOpen(false)
   }
+
+
 
   return (
     <Container>
@@ -33,17 +38,15 @@ const PlantDetails = () => {
         <div className='md:gap-10 flex-1'>
           {/* Plant Info */}
           <Heading
-            title={'Money Plant'}
-            subtitle={`Category: ${'Succulent'}`}
+            title={detailsPlant.name}
+            subtitle={`Category: ${detailsPlant?.category}`}
           />
           <hr className='my-6' />
           <div
             className='
           text-lg font-light text-neutral-500'
           >
-            Professionally deliver sticky testing procedures for next-generation
-            portals. Objectively communicate just in time infrastructures
-            before.
+            {detailsPlant.description}.
           </div>
           <hr className='my-6' />
 
@@ -57,7 +60,7 @@ const PlantDetails = () => {
                 gap-2
               '
           >
-            <div>Seller: Shakil Ahmed Atik</div>
+            <div>Seller: {detailsPlant?.seller?.name}</div>
 
             <img
               className='rounded-full'
@@ -65,7 +68,7 @@ const PlantDetails = () => {
               width='30'
               alt='Avatar'
               referrerPolicy='no-referrer'
-              src='https://lh3.googleusercontent.com/a/ACg8ocKUMU3XIX-JSUB80Gj_bYIWfYudpibgdwZE1xqmAGxHASgdvCZZ=s96-c'
+              src={detailsPlant?.seller?.photo}
             />
           </div>
           <hr className='my-6' />
@@ -77,19 +80,21 @@ const PlantDetails = () => {
                 text-neutral-500
               '
             >
-              Quantity: 10 Units Left Only!
+              Quantity: {detailsPlant?.quantity}!
             </p>
           </div>
           <hr className='my-6' />
           <div className='flex justify-between'>
-            <p className='font-bold text-3xl text-gray-500'>Price: 10$</p>
+            <p className='font-bold text-3xl text-gray-500'>Price: {detailsPlant.price}$</p>
             <div>
-              <Button label='Purchase' />
+              <Button onClick={() => setIsOpen(true)}
+                label={detailsPlant.quantity > 0 ?
+                  'Purchase' : 'Out of Stocks'} />
             </div>
           </div>
           <hr className='my-6' />
 
-          <PurchaseModal closeModal={closeModal} isOpen={isOpen} />
+          <PurchaseModal plant={detailsPlant} closeModal={closeModal} isOpen={isOpen} />
         </div>
       </div>
     </Container>
